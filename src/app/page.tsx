@@ -27,8 +27,18 @@ export default function HomePage() {
       <Header />
 
       {/* ヒーローセクション */}
-      <section className="bg-gradient-to-br from-rose-50 via-red-50 to-orange-50 border-b border-rose-100">
-        <div className="max-w-7xl mx-auto px-4 py-24 sm:px-6 lg:px-8">
+      <section className="relative border-b border-rose-100 overflow-hidden">
+        {/* 背景画像 */}
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: 'url(/images/hero-bg.jpeg)',
+          }}
+        />
+        {/* オーバーレイ */}
+        <div className="absolute inset-0 bg-gradient-to-r from-white/80 via-white/70 to-white/50" />
+
+        <div className="relative max-w-7xl mx-auto px-4 py-24 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto">
             <h1 className="text-4xl font-light text-gray-900 mb-6 tracking-wide leading-tight">
               パーソナライズされた食事を
