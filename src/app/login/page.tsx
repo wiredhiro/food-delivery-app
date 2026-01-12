@@ -7,6 +7,14 @@ import { trpc } from '@/lib/trpc';
 import { useAuth } from '@/contexts/AuthContext';
 import Header from '@/components/Header';
 
+const isDemoMode = process.env.NEXT_PUBLIC_DEMO_MODE === 'true';
+
+// デモ用アカウント情報
+const DEMO_ACCOUNTS = [
+  { email: 'demo@example.com', password: 'demo1234', label: '一般ユーザー' },
+  { email: 'admin@example.com', password: 'admin1234', label: '管理者' },
+];
+
 export default function LoginPage() {
  const router = useRouter();
  const { login } = useAuth();
@@ -52,6 +60,31 @@ export default function LoginPage() {
  {error && (
  <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-lg">
  {error}
+ </div>
+ )}
+
+ {isDemoMode && (
+ <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+ <p className="text-sm font-medium text-blue-800 mb-2">
+ デモ用アカウント:
+ </p>
+ <div className="space-y-2">
+ {DEMO_ACCOUNTS.map((account) => (
+ <button
+ key={account.email}
+ type="button"
+ onClick={() => {
+ setEmail(account.email);
+ setPassword(account.password);
+ }}
+ className="w-full text-left p-2 bg-white rounded border border-blue-200 hover:bg-blue-100 transition-colors"
+ >
+ <span className="text-xs text-gray-500">{account.label}</span>
+ <br />
+ <span className="text-sm text-gray-700">{account.email}</span>
+ </button>
+ ))}
+ </div>
  </div>
  )}
 

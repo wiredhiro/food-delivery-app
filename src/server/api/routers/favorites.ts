@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { router, publicProcedure } from '../trpc';
+import { router, publicProcedure, writeProcedure } from '../trpc';
 import { db } from '@/server/db';
 import { favorites, products } from '@/server/db/schema';
 import { eq, and, desc } from 'drizzle-orm';
@@ -50,7 +50,7 @@ export const favoritesRouter = router({
     }),
 
   // お気に入りに追加
-  add: publicProcedure
+  add: writeProcedure
     .input(z.object({
       userId: z.number(),
       productId: z.number(),
@@ -81,7 +81,7 @@ export const favoritesRouter = router({
     }),
 
   // お気に入りから削除
-  remove: publicProcedure
+  remove: writeProcedure
     .input(z.object({
       userId: z.number(),
       productId: z.number(),

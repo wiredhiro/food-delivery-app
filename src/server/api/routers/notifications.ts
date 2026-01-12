@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { router, publicProcedure } from '../trpc';
+import { router, publicProcedure, writeProcedure } from '../trpc';
 import { db } from '@/server/db';
 import { notifications } from '@/server/db/schema';
 import { eq, desc, and, sql } from 'drizzle-orm';
@@ -47,7 +47,7 @@ export const notificationsRouter = router({
     }),
 
   // 通知を既読にする
-  markAsRead: publicProcedure
+  markAsRead: writeProcedure
     .input(z.object({
       notificationId: z.number(),
       userId: z.number(),
@@ -70,7 +70,7 @@ export const notificationsRouter = router({
     }),
 
   // 全ての通知を既読にする
-  markAllAsRead: publicProcedure
+  markAllAsRead: writeProcedure
     .input(z.object({ userId: z.number() }))
     .mutation(async ({ input }) => {
       await db
@@ -90,7 +90,7 @@ export const notificationsRouter = router({
     }),
 
   // 通知を削除
-  delete: publicProcedure
+  delete: writeProcedure
     .input(z.object({
       notificationId: z.number(),
       userId: z.number(),
@@ -109,7 +109,7 @@ export const notificationsRouter = router({
     }),
 
   // 通知を作成（管理者用/システム用）
-  create: publicProcedure
+  create: writeProcedure
     .input(z.object({
       userId: z.number(),
       title: z.string(),

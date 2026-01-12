@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { router, publicProcedure } from '../trpc';
+import { router, publicProcedure, writeProcedure } from '../trpc';
 import { db } from '@/server/db';
 import { orders, orderItems, products, users, notifications } from '@/server/db/schema';
 import { eq, desc } from 'drizzle-orm';
@@ -23,7 +23,7 @@ export const adminRouter = router({
     }),
 
   // 注文ステータスを更新
-  updateOrderStatus: publicProcedure
+  updateOrderStatus: writeProcedure
     .input(z.object({
       orderId: z.number(),
       status: z.enum(['pending', 'confirmed', 'preparing', 'shipped', 'delivered', 'cancelled']),
@@ -86,7 +86,7 @@ export const adminRouter = router({
     }),
 
   // 商品を作成
-  createProduct: publicProcedure
+  createProduct: writeProcedure
     .input(z.object({
       categoryId: z.number().optional(),
       name: z.string(),
@@ -109,7 +109,7 @@ export const adminRouter = router({
     }),
 
   // 商品を更新
-  updateProduct: publicProcedure
+  updateProduct: writeProcedure
     .input(z.object({
       id: z.number(),
       categoryId: z.number().optional(),
@@ -138,7 +138,7 @@ export const adminRouter = router({
     }),
 
   // 商品を削除（論理削除）
-  deleteProduct: publicProcedure
+  deleteProduct: writeProcedure
     .input(z.object({ id: z.number() }))
     .mutation(async ({ input }) => {
       await db

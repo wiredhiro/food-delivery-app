@@ -6,6 +6,8 @@ import Link from 'next/link';
 import { trpc } from '@/lib/trpc';
 import Header from '@/components/Header';
 
+const isDemoMode = process.env.NEXT_PUBLIC_DEMO_MODE === 'true';
+
 export default function SignupPage() {
  const router = useRouter();
  const [name, setName] = useState('');
@@ -76,6 +78,48 @@ export default function SignupPage() {
  <p className="text-gray-600">
  アカウントの作成が完了しました。ログインページに移動します...
  </p>
+ </div>
+ </main>
+ </div>
+ );
+ }
+
+ // デモモードの場合はサインアップを無効化
+ if (isDemoMode) {
+ return (
+ <div className="min-h-screen bg-gray-50">
+ <Header />
+ <main className="max-w-md mx-auto px-4 py-16">
+ <div className="bg-white rounded-lg shadow-md p-8 text-center">
+ <div className="mb-4">
+ <svg
+ className="w-16 h-16 mx-auto text-yellow-500"
+ fill="none"
+ stroke="currentColor"
+ viewBox="0 0 24 24"
+ >
+ <path
+ strokeLinecap="round"
+ strokeLinejoin="round"
+ strokeWidth={2}
+ d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+ />
+ </svg>
+ </div>
+ <h1 className="text-2xl font-bold text-gray-900 mb-2">
+ デモモード
+ </h1>
+ <p className="text-gray-600 mb-6">
+ デモモードのため、新規アカウントの作成はできません。
+ <br />
+ ログインページからデモ用アカウントをご利用ください。
+ </p>
+ <Link
+ href="/login"
+ className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200"
+ >
+ ログインページへ
+ </Link>
  </div>
  </main>
  </div>

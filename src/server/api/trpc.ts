@@ -2,6 +2,9 @@ import { initTRPC, TRPCError } from '@trpc/server';
 import { z } from 'zod';
 import { db } from '@/server/db';
 
+// デモモードの判定
+export const isDemoMode = process.env.NEXT_PUBLIC_DEMO_MODE === 'true';
+
 // コンテキストの型定義
 interface Context {
   db: typeof db;
@@ -40,3 +43,20 @@ export const protectedProcedure = t.procedure.use(async ({ ctx, next }) => {
     },
   });
 });
+
+// デモモード用ミドルウェア - 書き込み操作をブロック
+const demoModeMiddleware = t.middleware(async ({ next }) => {
+  if (isDemoMode) {
+    throw new TRPCError({
+      code: 'FORBIDDEN',
+      message: 'デモモードのため、この操作は実行できません',
+    });
+  }
+  return next();
+});
+
+// デモモードでブロックされるプロシージャ（書き込み操作用）
+export const writeProcedure = t.procedure.use(demoModeMiddleware);
+
+// 認証 + デモモードブロック
+export const protectedWriteProcedure = protectedProcedure.use(demoModeMiddleware);

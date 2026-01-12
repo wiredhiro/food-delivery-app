@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { router, publicProcedure } from '../trpc';
+import { router, publicProcedure, writeProcedure } from '../trpc';
 import { db } from '@/server/db';
 import { deliveryTracking, orders, users } from '@/server/db/schema';
 import { eq, desc } from 'drizzle-orm';
@@ -35,7 +35,7 @@ export const deliveryRouter = router({
     }),
 
   // 配送状況を更新（管理者用）
-  updateStatus: publicProcedure
+  updateStatus: writeProcedure
     .input(z.object({
       orderId: z.number(),
       status: z.enum([

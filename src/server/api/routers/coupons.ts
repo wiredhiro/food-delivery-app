@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { router, publicProcedure } from '../trpc';
+import { router, publicProcedure, writeProcedure } from '../trpc';
 import { db } from '@/server/db';
 import { coupons } from '@/server/db/schema';
 import { eq, and, lte, gte, sql } from 'drizzle-orm';
@@ -121,7 +121,7 @@ export const couponsRouter = router({
     }),
 
   // クーポン使用回数を増やす（注文確定時に呼ばれる）
-  incrementUsage: publicProcedure
+  incrementUsage: writeProcedure
     .input(z.object({
       code: z.string(),
     }))
@@ -144,7 +144,7 @@ export const couponsRouter = router({
     }),
 
   // 管理者用：クーポン作成
-  create: publicProcedure
+  create: writeProcedure
     .input(z.object({
       code: z.string().min(3).max(50),
       description: z.string().optional(),
@@ -174,7 +174,7 @@ export const couponsRouter = router({
     }),
 
   // 管理者用：クーポン削除
-  delete: publicProcedure
+  delete: writeProcedure
     .input(z.object({
       id: z.number(),
     }))

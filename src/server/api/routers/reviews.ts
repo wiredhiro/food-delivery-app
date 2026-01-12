@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { router, publicProcedure } from '../trpc';
+import { router, publicProcedure, writeProcedure } from '../trpc';
 import { db } from '@/server/db';
 import { reviews, products, users, orderItems } from '@/server/db/schema';
 import { eq, and, desc, sql } from 'drizzle-orm';
@@ -82,7 +82,7 @@ export const reviewsRouter = router({
     }),
 
   // レビューを作成
-  create: publicProcedure
+  create: writeProcedure
     .input(z.object({
       productId: z.number(),
       userId: z.number(),
@@ -130,7 +130,7 @@ export const reviewsRouter = router({
     }),
 
   // レビューを更新
-  update: publicProcedure
+  update: writeProcedure
     .input(z.object({
       reviewId: z.number(),
       userId: z.number(),
@@ -168,7 +168,7 @@ export const reviewsRouter = router({
     }),
 
   // レビューを削除
-  delete: publicProcedure
+  delete: writeProcedure
     .input(z.object({
       reviewId: z.number(),
       userId: z.number(),

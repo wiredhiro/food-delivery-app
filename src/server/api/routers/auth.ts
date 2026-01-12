@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { router, publicProcedure } from '../trpc';
+import { router, publicProcedure, writeProcedure } from '../trpc';
 import { db } from '@/server/db';
 import { users } from '@/server/db/schema';
 import { eq } from 'drizzle-orm';
@@ -7,7 +7,7 @@ import bcrypt from 'bcryptjs';
 
 export const authRouter = router({
   // サインアップ
-  signup: publicProcedure
+  signup: writeProcedure
     .input(
       z.object({
         email: z.string().email('有効なメールアドレスを入力してください'),

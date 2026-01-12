@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { router, publicProcedure } from '../trpc';
+import { router, publicProcedure, writeProcedure } from '../trpc';
 import { db } from '@/server/db';
 import { orders, orderItems, products, addresses, users } from '@/server/db/schema';
 import { eq, desc } from 'drizzle-orm';
@@ -7,7 +7,7 @@ import { sendEmail, generateOrderConfirmationEmail } from '@/lib/email';
 
 export const ordersRouter = router({
   // 注文を作成
-  create: publicProcedure
+  create: writeProcedure
     .input(
       z.object({
         userId: z.number(),

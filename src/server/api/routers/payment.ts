@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { router, publicProcedure } from '../trpc';
+import { router, publicProcedure, writeProcedure } from '../trpc';
 import { paymentMethods, paymentTransactions, orders } from '@/server/db/schema';
 import { eq, and, desc } from 'drizzle-orm';
 import { TRPCError } from '@trpc/server';
@@ -37,7 +37,7 @@ export const paymentRouter = router({
   }),
 
   // 決済方法を追加
-  addPaymentMethod: publicProcedure
+  addPaymentMethod: writeProcedure
     .input(
       z.object({
         userId: z.number(),
@@ -77,7 +77,7 @@ export const paymentRouter = router({
     }),
 
   // 決済方法を削除
-  deletePaymentMethod: publicProcedure
+  deletePaymentMethod: writeProcedure
     .input(z.object({ id: z.number(), userId: z.number() }))
     .mutation(async ({ ctx, input }) => {
       const method = await ctx.db
@@ -101,7 +101,7 @@ export const paymentRouter = router({
     }),
 
   // 注文の決済を処理
-  processPayment: publicProcedure
+  processPayment: writeProcedure
     .input(
       z.object({
         userId: z.number(),

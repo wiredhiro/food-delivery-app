@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { router, publicProcedure } from '../trpc';
+import { router, publicProcedure, writeProcedure } from '../trpc';
 import { db } from '@/server/db';
 import { users, addresses } from '@/server/db/schema';
 import { eq, and, desc } from 'drizzle-orm';
@@ -31,7 +31,7 @@ export const userRouter = router({
     }),
 
   // ユーザー情報を更新
-  updateProfile: publicProcedure
+  updateProfile: writeProcedure
     .input(z.object({
       userId: z.number(),
       name: z.string().min(1, '名前を入力してください'),
@@ -51,7 +51,7 @@ export const userRouter = router({
     }),
 
   // パスワードを変更
-  changePassword: publicProcedure
+  changePassword: writeProcedure
     .input(z.object({
       userId: z.number(),
       currentPassword: z.string().min(1, '現在のパスワードを入力してください'),
@@ -103,7 +103,7 @@ export const userRouter = router({
     }),
 
   // 配送先住所を追加
-  addAddress: publicProcedure
+  addAddress: writeProcedure
     .input(z.object({
       userId: z.number(),
       name: z.string().min(1, '宛名を入力してください'),
@@ -140,7 +140,7 @@ export const userRouter = router({
     }),
 
   // 配送先住所を更新
-  updateAddress: publicProcedure
+  updateAddress: writeProcedure
     .input(z.object({
       id: z.number(),
       userId: z.number(),
@@ -187,7 +187,7 @@ export const userRouter = router({
     }),
 
   // 配送先住所を削除
-  deleteAddress: publicProcedure
+  deleteAddress: writeProcedure
     .input(z.object({
       id: z.number(),
       userId: z.number(),
@@ -204,7 +204,7 @@ export const userRouter = router({
     }),
 
   // デフォルト住所を設定
-  setDefaultAddress: publicProcedure
+  setDefaultAddress: writeProcedure
     .input(z.object({
       id: z.number(),
       userId: z.number(),

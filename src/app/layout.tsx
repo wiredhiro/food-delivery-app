@@ -4,6 +4,7 @@ import { TRPCProvider } from "@/lib/trpc-provider";
 import { CartProvider } from "@/contexts/CartContext";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { FavoritesProvider } from "@/contexts/FavoritesContext";
+import { DemoBanner } from "@/components/DemoBanner";
 
 export const metadata: Metadata = {
   title: "パーソナライズ食事宅配サービス",
@@ -18,6 +19,7 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body>
+        <DemoBanner />
         <TRPCProvider>
           <AuthProvider>
             <FavoritesProvider>
